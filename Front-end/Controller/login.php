@@ -1,6 +1,4 @@
 <?php
 
-require '../../Front-end/Controller/login.php';
-
-require '../View/login.php';
+require_once __DIR__ . '/../View/login.php';
 
