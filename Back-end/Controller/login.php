@@ -16,9 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = getUser($pdo, $username);
 
     if ($user && password_verify($password, $user['password']) && $user['enabled']) {
-        // Authentification réussie
         $_SESSION['authentication'] = true;
-        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_id'] = $user['Id'];
         $_SESSION['user_username'] = $user['username'];
         header("Location: index.php?component=home");
         exit();

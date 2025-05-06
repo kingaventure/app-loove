@@ -3,24 +3,21 @@ session_start();
 require './Other/database.php';
 require './Other/errors.php';
 require './Other/function.php';
+require './Other/navbar.php';
 
 $errors = [];
 
-// Déconnexion
 if (isset($_GET['logout']) && $_GET['logout']) {
     session_destroy();
     header("Location: index.php");
     exit();
 }
 
-// Vérification de l'authentification
 if (!isset($_SESSION['authentication'])) {
-    // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
     require "Back-end/Controller/login.php";
     exit();
 }
 
-// Gestion des composants
 if (isset($_GET['component'])) {
     $componentName = cleanString($_GET['component']);
     if (file_exists("Back-end/Controller/$componentName.php")) {
@@ -41,7 +38,6 @@ if (isset($_GET['component'])) {
 </head>
 <body data-bs-theme="dark">
     <?php 
-        // Affiche les erreurs
         foreach ($errors as $error): 
     ?>
         <li><?php echo htmlspecialchars($error); ?></li>
