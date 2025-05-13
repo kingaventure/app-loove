@@ -47,7 +47,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Connexion</h1>
+    <h1>Crée un utilisateur</h1>
     <?php if (!empty($errors)): ?>
       <div class="error">
         <?php foreach ($errors as $error): ?>
@@ -58,7 +58,7 @@
     <form method="POST" action="">
       <input type="text" name="username" placeholder="Pseudo" required>
       <input type="password" name="password" placeholder="Mot de passe" required>
-      <button type="submit">Se connecter</button>
+      <button type="submit">S'inscrire</button>
     </form>
   </div>
 </body>

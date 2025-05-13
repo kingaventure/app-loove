@@ -130,12 +130,12 @@
 
   <div class="card-container">
     <div class="card">
-      <img src="https://via.placeholder.com/380x300" alt="Image de profil">
+    <img src="<?php echo $image; ?>" alt="Image de profil">
       <div class="info">
         <div>
-          <div class="name">Michel</div>
-          <div class="age">25 ans</div>
-          <div class="bio">Passionné par le cinéma, les voyages et la photographie. Toujours prêt pour une nouvelle aventure !</div>
+          <div class="name"><?php echo $prenom ?></div>
+          <div class="age"><?php echo $age ?> ans</div>
+          <div class="bio"><?php echo $bio ?></div>
         </div>
         <button class="more-info-btn">🔎 Plus d’infos</button>
       </div>
@@ -157,11 +157,11 @@
     });
 
     document.querySelector('.more-info-btn').addEventListener('click', () => {
-      alert("Michel aime aussi les jeux vidéo rétro et la cuisine italienne 🍝");
+      alert(`<?php echo $prenom ?>` + " " + `<?php echo $name ?>` + " est un(e) " + `<?php echo $sex ?>` + " " + `<?php echo $os ?>`);
     });
 
     document.querySelector('.account-btn').addEventListener('click', () => {
-      alert("Redirection vers ton profil...");
+      window.location.href = "index.php?component=account"; 
     });
   </script>
 </body>

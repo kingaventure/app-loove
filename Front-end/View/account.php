@@ -15,6 +15,28 @@
       color: white;
       text-align: center;
       padding: 15px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .header-icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .close-icon {
+      left: 20px;
+    }
+
+    .settings-icon {
+      right: 20px;
     }
     .container {
       padding: 30px 20px;
@@ -71,8 +93,10 @@
   </style>
 </head>
 <body>
-  <header>
+<header>
+    <a href="/app-loove/index.php" class="header-icon close-icon">×</a>
     <h1>Mon compte</h1>
+    <a href="/app-loove/index.php?component=settings" class="header-icon settings-icon">⚙️</a>
   </header>
   <div class="container">
     <div class="profile-pic"></div>
@@ -85,6 +109,11 @@
       <div></div>
     </div>
     <button>Modifier</button>
+    <div style="margin-top: 10px;">
+      <a href="/app-loove/index.php?component=logout">
+        <button type="button" style="background-color: #dc3545;">Déconnexion</button>
+      </a>
+    </div>
   </div>
 </body>
 </html>

@@ -4,25 +4,31 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/../Model/login.php';
+require_once __DIR__ . '/../Model/login.php'; 
 
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
-
-
-    $user = getUser($pdo, $username);
-
-    if ($user && password_verify($password, $user['password']) && $user['enabled']) {
-        $_SESSION['authentication'] = true;
-        $_SESSION['user_id'] = $user['Id'];
-        $_SESSION['user_username'] = $user['username'];
-        header("Location: index.php?component=home");
-        exit();
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+    echo password_hash('admin', PASSWORD_DEFAULT);
+    if (empty($username) || empty($password)) {
+        $errors[] = "Veuillez remplir tous les champs.";
     } else {
-        $errors[] = "Identifiants incorrects ou compte désactivé.";
+        try {
+            $user = getUser($pdo, $username);
+            if ($user && password_verify($password, $user['password']) && $user['enabled']) {
+                $_SESSION['authentication'] = true;
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_username'] = $user['username'];
+                header("Location: index.php?component=home");
+                exit();
+            } else {
+                $errors[] = "Identifiants incorrects ou compte désactivé.";
+            }
+        } catch (Exception $e) {
+            $errors[] = "Une erreur est survenue lors de la connexion. Veuillez réessayer.";
+        }
     }
 }
 
