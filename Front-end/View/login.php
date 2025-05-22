@@ -59,6 +59,7 @@
       <input type="text" name="username" placeholder="Pseudo" required>
       <input type="password" name="password" placeholder="Mot de passe" required>
       <button type="submit">Se connecter</button>
+      <p>Pas encore inscrit ? <a href="index.php?component=create_user">Créer un compte</a></p>
     </form>
   </div>
 </body>

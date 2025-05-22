@@ -3,7 +3,6 @@ session_start();
 require './Other/database.php';
 require './Other/errors.php';
 require './Other/function.php';
-require './Other/navbar.php';
 
 $errors = [];
 
@@ -13,10 +12,7 @@ if (isset($_GET['logout']) && $_GET['logout']) {
     exit();
 }
 
-if (!isset($_SESSION['authentication'])) {
-    require "Back-end/Controller/login.php";
-    exit();
-}
+
 
 if (isset($_GET['component'])) {
     $componentName = cleanString($_GET['component']);
@@ -27,6 +23,8 @@ if (isset($_GET['component'])) {
         $errors[] = "Composant introuvable.";
     }
 }
+
+
 ?>
 
 <!DOCTYPE html>
