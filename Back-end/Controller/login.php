@@ -11,19 +11,25 @@ $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $password = trim($_POST['password'] ?? '');
-    echo password_hash('admin', PASSWORD_DEFAULT);
     if (empty($username) || empty($password)) {
         $errors[] = "Veuillez remplir tous les champs.";
     } else {
         try {
             $user = getUser($pdo, $username);
-            if ($user && password_verify($password, $user['password']) && $user['enabled']) {
+            if ($user && password_verify($password, $user['password']) && $user['enabled'] && $user['admin'] == '0') {
                 $_SESSION['authentication'] = true;
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_username'] = $user['username'];
                 header("Location: index.php?component=home");
                 exit();
-            } else {
+            } elseif ($user && password_verify($password, $user['password']) && $user['enabled'] && $user['admin'] == '1') {
+                $_SESSION['authentication'] = true;
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_username'] = $user['username'];
+                header("Location: index.php?component=dashboard");
+                exit();
+            } 
+            else {
                 $errors[] = "Identifiants incorrects ou compte désactivé.";
             }
         } catch (Exception $e) {

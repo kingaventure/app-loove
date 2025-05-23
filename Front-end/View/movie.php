@@ -137,14 +137,13 @@
     <div class="films-container">
     <?php for ($i = 1; $i <= 3; $i++): ?>
         <div class="film" onclick="movieManager.openModal(<?php echo $i; ?>)">
-            <?php
-            $movieId = $profil["movies_id_$i"] ?? null;
-            if ($movieId): 
-                echo '<img src="' . $movieDetails['poster_path'] . '" alt="' . $movieDetails['title'] . '">';
-            else:
-                echo '+';
-            endif;
-            ?>
+            <?php if (isset($movieDetails[$i])): ?>
+                <img src="<?php echo htmlspecialchars($movieDetails[$i]['poster_path']); ?>" 
+                     alt="<?php echo htmlspecialchars($movieDetails[$i]['title']); ?>"
+                     title="<?php echo htmlspecialchars($movieDetails[$i]['title']); ?>">
+            <?php else: ?>
+                <span class="ajouter">+</span>
+            <?php endif; ?>
         </div>
     <?php endfor; ?>
 </div>

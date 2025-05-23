@@ -16,7 +16,7 @@ function getAllProfil($pdo) {
 
 function addProfil($pdo, $username, $prenom, $name, $age, $bio, $img, $sex, $os) {
     try {
-        $sql = "INSERT INTO profil (user_name, prenom, name, age, bio, img, sex, os, movie_id_1, movie_id_2, movie_id_3) 
+        $sql = "INSERT INTO profil (user_name, prenom, name, age, bio, img, sexe, os, movie_id_1, movie_id_2, movie_id_3) 
                 VALUES (:username, :prenom, :name, :age, :bio, :img, :sex, :os, 0, 0, 0)";
         
         error_log("SQL Query: " . $sql);

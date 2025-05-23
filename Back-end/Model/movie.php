@@ -9,22 +9,18 @@ function searchMovies($searchTerm) {
         $searchTerm = urlencode($searchTerm);
         $url = "{$baseUrl}/search/movie?api_key={$apiKey}&language={$language}&query={$searchTerm}&page=1";
         
-        // Initialiser cURL
         $ch = curl_init();
         
-        // Configurer les options cURL
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Pour le développement local uniquement
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         
-        // Exécuter la requête
         $response = curl_exec($ch);
         
         if ($response === false) {
             throw new Exception('Erreur cURL: ' . curl_error($ch));
         }
         
-        // Fermer la session cURL
         curl_close($ch);
         
         $data = json_decode($response, true);
@@ -79,5 +75,46 @@ function addMovies($pdo, $username, $movieId, $position) {
     } catch (PDOException $e) {
         error_log("Database error: " . $e->getMessage());
         throw new Exception('Erreur lors de la sauvegarde du film');
+    }
+}
+
+function getProfile($pdo, $username) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM profil WHERE user_name = :username");
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Database error: " . $e->getMessage());
+        throw new Exception('Erreur lors de la récupération des profils');
+    }
+}
+
+function getMovieDetails($movieId) {
+    try {
+        $apiKey = '5d537f1d57876b886b84cc1715fcedc8';
+        $baseUrl = 'https://api.themoviedb.org/3';
+        $language = 'fr-FR';
+        
+        $url = "{$baseUrl}/movie/{$movieId}?api_key={$apiKey}&language={$language}";
+        
+        $ch = curl_init();
+        
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        
+        $response = curl_exec($ch);
+        
+        if ($response === false) {
+            throw new Exception('Erreur cURL: ' . curl_error($ch));
+        }
+        
+        curl_close($ch);
+        
+        return json_decode($response, true);
+    } catch (Exception $e) {
+        error_log("Movie details error: " . $e->getMessage());
+        return null;
     }
 }

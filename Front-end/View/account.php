@@ -171,14 +171,20 @@
       <p><?php echo $bio ?></p>
     </div>
     <div class="photos">
-      <div></div>
-      <div></div>
-      <div></div>
+      <?php for ($i = 1; $i <= 3; $i++): ?>
+            <?php if (isset($movieDetails[$i])): ?>
+                <img src="<?php echo htmlspecialchars($movieDetails[$i]['poster_path']); ?>" 
+                     alt="<?php echo htmlspecialchars($movieDetails[$i]['title']); ?>"
+                     title="<?php echo htmlspecialchars($movieDetails[$i]['title']); ?>">
+            <?php else: ?>
+                <span class="ajouter">X</span>
+            <?php endif; ?>
+    <?php endfor; ?>
     </div>
     <button onclick="openModal()">Modifier</button>
     <div style="margin-top: 10px;">
       <a href="/app-loove/index.php?component=logout">
-        <button type="button" style="background-color: #dc3545;">Déconnexion</button>
+        <button type="button" id="logout_btn" style="background-color: #dc3545;">Déconnexion</button>
       </a>
     </div>
   </div>
@@ -191,7 +197,6 @@ function closeModal() {
     document.getElementById('profileModal').style.display = 'none';
 }
 
-// Ferme la modal si on clique en dehors
 window.onclick = function(event) {
     var modal = document.getElementById('profileModal');
     if (event.target == modal) {

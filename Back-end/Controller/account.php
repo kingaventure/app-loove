@@ -19,7 +19,31 @@ $bio = '';
 $sex = '';
 $os = '';
 
-    $profil = getProfil($pdo, $_SESSION['user_username']);
+$profil = getProfil($pdo, $_SESSION['user_username']);
+
+$movieDetails = [];
+try {
+    if ($profil) {
+        for ($i = 1; $i <= 3; $i++) {
+            $movieId = $profil["movie_id_$i"];
+            if ($movieId) {
+                $details = getMovieDetails($movieId);
+                if ($details) {
+                    $movieDetails[$i] = [
+                        'title' => $details['title'],
+                        'poster_path' => 'https://image.tmdb.org/t/p/w200' . $details['poster_path']
+                    ];
+                }
+            }
+        }
+    }
+} catch (Exception $e) {
+    error_log("Error loading movies: " . $e->getMessage());
+}
+
+
+
+    
     
     if ($profil) {
         $age = $profil['age'];

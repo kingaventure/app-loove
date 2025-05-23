@@ -12,6 +12,27 @@ if (!isset($_SESSION['user_username'])) {
     exit;
 }
 
+$movieDetails = [];
+try {
+    $profile = getProfile($pdo, $_SESSION['user_username']);
+    if ($profile) {
+        for ($i = 1; $i <= 3; $i++) {
+            $movieId = $profile["movie_id_$i"];
+            if ($movieId) {
+                $details = getMovieDetails($movieId);
+                if ($details) {
+                    $movieDetails[$i] = [
+                        'title' => $details['title'],
+                        'poster_path' => 'https://image.tmdb.org/t/p/w200' . $details['poster_path']
+                    ];
+                }
+            }
+        }
+    }
+} catch (Exception $e) {
+    error_log("Error loading movies: " . $e->getMessage());
+}
+
 if (isset($_GET['action'])) {
     header('Content-Type: application/json');
     
@@ -57,5 +78,6 @@ case 'save':
             break;
     }
 }
+
 
 require __DIR__ . '/../../Front-end/View/movie.php';
