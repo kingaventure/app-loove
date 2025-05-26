@@ -67,31 +67,32 @@ $sex = '';
 $os = '';
 
 if ($hasProfile) {
-    $profil = getProfil($pdo, $_SESSION['user_username']);
-    
-    if ($profil) {
-        $age = $profil['age'];
-        $image = $profil['img'];
-        $bio = $profil['bio'];
-        $name = $profil['name'];
-        $prenom = $profil['prenom'];
-        if ($profil['sex'] == 0) {
-            $sex = 'homme';
-        } elseif ($profil['sex'] == 1) {
-            $sex = 'femme';
-        } else {
-            $sex = 'autre';
-        }
-        if ($profil['os'] == 0) {
-            $os = 'hétéro';
-        } elseif ($profil['os'] == 1) {
-            $os = 'homo';
-        } elseif ($profil['os'] == 2) {
-            $os = 'bi';
-        } else {
-            $os = 'autre';
+    $profilId = getIdUser($pdo, $_SESSION['user_username']);
+    $date = date('Y-m-d H:i:s');
+    $ids_possibles = getAllProfilIdsExceptUser($pdo, $profilId);
+    if (!empty($ids_possibles)) {
+        $randomId = $ids_possibles[array_rand($ids_possibles)];
+        $profil = getProfil($pdo, $randomId);
+        if ($profil) {
+            $age = $profil['age'];
+            $image = $profil['img'];
+            $bio = $profil['bio'];
+            $name = $profil['name'];
+            $prenom = $profil['prenom'];
+
+            $sex = match($profil['sex']) {
+                0 => 'homme',
+                1 => 'femme',
+                default => 'autre'
+            };
+
+            $os = match($profil['os']) {
+                0 => 'hétéro',
+                1 => 'homo',
+                2 => 'bi',
+                default => 'autre'
+            };
         }
     }
 }
-
 require_once __DIR__ . '/../../Front-end/View/home.php';

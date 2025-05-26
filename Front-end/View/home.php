@@ -280,12 +280,8 @@
   };
 }
     document.querySelector('.left-btn').addEventListener('click', () => {
-      alert('Tu as swipé à gauche !');
-    });
-
-    document.querySelector('.right-btn').addEventListener('click', () => {
-      alert('Tu as swipé à droite !');
-    });
+  location.reload();
+});
 
     if (document.querySelector('.more-info-btn')) {
     document.querySelector('.more-info-btn').addEventListener('click', () => {
@@ -297,6 +293,33 @@
       window.location.href = "index.php?component=account"; 
     });
   </script>
+
+  <script>
+    document.querySelector('.right-btn').addEventListener('click', function () {
+        fetch('Other/like.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id_liker: <?php echo json_encode($profilId); ?>,
+                id_liked: <?php echo json_encode($randomId); ?>,
+                date: <?php echo json_encode($date); ?>
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Like enregistré !");
+            } else {
+                alert("Erreur : " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur fetch:', error);
+        });
+    });
+</script>
   <div class="navbar">
     <a href="/app-loove/index.php?component=movie" class="nav-item">🎬</a>
         <a href="#" class="nav-item">💬</a>
