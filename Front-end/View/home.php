@@ -322,7 +322,7 @@
 </script>
   <div class="navbar">
     <a href="/app-loove/index.php?component=movie" class="nav-item">🎬</a>
-        <a href="#" class="nav-item">💬</a>
+        <a href="/app-loove/index.php?component=messages" class="nav-item">💬</a>
         <a href="#" class="nav-item">🔔</a>
         <a href="#" class="nav-item">➕</a>
   </div>

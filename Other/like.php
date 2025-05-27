@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($data['id_liker'], $data['id_liked'], $data['date'])) {
         echo json_encode(['success' => false, 'message' => 'Données manquantes']);
         exit;
-    }
+   }
 
     try {
         $id_liker = intval($data['id_liker']);
