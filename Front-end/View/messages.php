@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Messages - My App</title>
-    <link rel="stylesheet" href="/app-loove/Front-end/assets/css/messages.css">
+      <link rel="stylesheet" href="/app-loove/Front-end/assets/css/messages.css">
 </head>
 <body>
   <header>
@@ -16,6 +16,9 @@
         <a class="message" href="index.php?component=private_message&user=<?php echo $match['id']; ?>">
           <img src="<?php echo '/app-loove' . $match['img']; ?>" alt="img">
           <span><?php echo htmlspecialchars($match['prenom'] . ' ' . $match['name']); ?></span>
+        </a>
+        <a href="http://localhost/app-loove/index.php?component=profiles&action=report&id=<?= htmlspecialchars($profil['id']) ?>" onclick="return confirm('Êtes-vous sûr de vouloir report ce profil ?');">
+          <button class="delete-btn">Report</button>
         </a>
       <?php endforeach; ?>
     <?php else: ?>

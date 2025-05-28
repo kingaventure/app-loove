@@ -10,3 +10,13 @@ function getUserMatches($pdo, $userId) {
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function sendReport($pdo, $usernam_rep, $mes) {
+    $stmt = $pdo->prepare("
+        INSERT INTO report (usernam_rep, mes)
+        VALUES (:usernam_rep :mes)
+    ");
+    $stmt->bindParam(':usernam_rep', $reporterId, PDO::PARAM_INT);
+    $stmt->bindParam(':mes', $reportedId, PDO::PARAM_INT);
+    return $stmt->execute();
+}

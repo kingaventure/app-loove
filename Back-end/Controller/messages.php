@@ -9,4 +9,6 @@ if (session_status() === PHP_SESSION_NONE) {
 $profilId = getIdUser($pdo, $_SESSION['user_username']);
 $matches = getUserMatches($pdo, $profilId);
 
+
+
 require_once __DIR__ . '/../../Front-end/View/messages.php';
