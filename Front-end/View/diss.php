@@ -3,49 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - Messages envoyés</title>
+  <title>Admin - Gestion des utilisateurs</title>
     <link rel="stylesheet" href="/app-loove/Front-end/assets/css/diss.css">
+
 </head>
 <body>
-  <h1>📩 Messages envoyés</h1>
+      <a href="http://localhost/app-loove/index.php?component=dashboard" class="back-btn">⬅️ Retour</a>
+  <h1>Admin - Messages</h1>
 
   <table>
     <thead>
       <tr>
         <th>ID</th>
-        <th>Expéditeur</th>
-        <th>Destinataire</th>
-        <th>Message</th>
-        <th>Heure d’envoi</th>
-        <th>Actions</th>
+        <th>Id Sender</th>
+        <th>Id Reciver</th>
+        <th>Contenu</th>
+        <th>Envoyé à</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>M-001</td>
-        <td>Michel</td>
-        <td>Claire</td>
-        <td class="message-cell">Salut Claire ! Tu vas bien ?</td>
-        <td>06/05/2025 15:42</td>
-        <td class="actions">
-          <button class="view-btn">🔍 Voir</button>
-          <button class="delete-btn">🗑️ Supprimer</button>
-        </td>
-      </tr>
-      <tr>
-        <td>M-002</td>
-        <td>Claire</td>
-        <td>Michel</td>
-        <td class="message-cell">Oui ça va et toi ? 😊</td>
-        <td>06/05/2025 15:44</td>
-        <td class="actions">
-          <button class="view-btn">🔍 Voir</button>
-          <button class="delete-btn">🗑️ Supprimer</button>
-        </td>
-      </tr>
-      <!-- Autres messages ici -->
+      <?php if (isset($messages) && is_array($messages)): ?>
+        <?php foreach ($messages as $message): ?>
+          <tr>
+            <td><?= htmlspecialchars($message['id'], ENT_QUOTES) ?></td>
+            <td><?= htmlspecialchars($message['sender_id'], ENT_QUOTES) ?></td>
+            <td><?= htmlspecialchars($message['recevier_id'], ENT_QUOTES) ?></td>
+            <td><?= htmlspecialchars($message['content'], ENT_QUOTES) ?></td>
+            <td><?= htmlspecialchars($message['sent_at'], ENT_QUOTES) ?></td>
+            <td class="action">
+              <a href="http://localhost/app-loove/index.php?component=diss&action=delete&id=<?= htmlspecialchars($message['id']) ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?');">
+              <button class="delete-btn">🗑️ Supprimer</button>
+              </a>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      <?php endif; ?>
     </tbody>
   </table>
 </body>
 </html>
+
 
