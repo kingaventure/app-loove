@@ -3,65 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Confidentialité - My App</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #e6d3f5;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #7b4db6;
-      color: white;
-      text-align: center;
-      padding: 15px;
-    }
-    .container {
-      padding: 20px;
-    }
-    .option {
-      background: white;
-      margin-bottom: 15px;
-      padding: 15px;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-    .toggle {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-    }
-    .red { background-color: red; }
-    .green { background-color: green; }
+    <link rel="stylesheet" href="/app-loove/Front-end/assets/css/secret.css">
 
-    .onoff
-        {
-        width:32px;
-        height:32px;
-        padding:1px 2px 3px 3px;	
-        font-size:12px;
-        background:lightgray;
-        text-align:center;	
-        }
-        .onoff div
-        {
-        width:18px;
-        height:18px;
-        min-height:18px;	
-        background:lightgray;
-        overflow:hidden;
-        border-top:1px solid gray;
-        border-right:1px solid white;
-        border-bottom:1px solid white;
-        border-left:1px solid gray;			
-        margin:0 auto;
-        color:gray;
-        }
-    
-  </style>
 </head>
 <body>
   <header>

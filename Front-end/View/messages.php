@@ -3,57 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Messages - My App</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #e6d3f5;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #7b4db6;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .messages-container {
-      padding: 20px;
-    }
-    .message {
-      background: white;
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-    }
-    .message img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-    .message span {
-      font-size: 16px;
-    }
-    .header-icon {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 24px;
-      color: white;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .close-icon {
-      left: 20px;
-    }
-  </style>
+    <link rel="stylesheet" href="/app-loove/Front-end/assets/css/messages.css">
 </head>
 <body>
   <header>

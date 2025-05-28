@@ -1,5 +1,4 @@
 <?php
-// Ajoute ceci tout en haut du fichier si ce n'est pas déjà fait
 if (!isset($profilId)) {
     $profilId = null;
 }
@@ -9,16 +8,8 @@ if (!isset($profilId)) {
 <head>
     <meta charset="UTF-8">
     <title>Conversation privée</title>
-    <style>
-        body { font-family: Arial; background: #f5f5f5; }
-        .messages { max-width: 600px; margin: 30px auto; background: #fff; border-radius: 10px; padding: 20px; }
-        .msg { margin: 10px 0; }
-        .me { text-align: right; color: #7b4db6; }
-        .other { text-align: left; color: #333; }
-        form { display: flex; margin-top: 20px; }
-        input[type="text"] { flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
-        button { padding: 10px 20px; background: #7b4db6; color: #fff; border: none; border-radius: 5px; margin-left: 10px; }
-    </style>
+      <link rel="stylesheet" href="/app-loove/Front-end/assets/css/private_message.css">
+
 </head>
 <body>
     <div class="messages">

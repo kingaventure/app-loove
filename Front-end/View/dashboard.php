@@ -7,18 +7,7 @@
     <title>Dashboard Admin - Loove</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
-    <style>
-        .admin-card {
-            transition: transform 0.3s ease;
-            height: 200px;
-        }
-        .admin-card:hover {
-            transform: scale(1.05);
-        }
-        .admin-icon {
-            font-size: 3rem;
-        }
-    </style>
+      <link rel="stylesheet" href="/app-loove/Front-end/assets/css/dashboard.css">
 </head>
 <body>
 

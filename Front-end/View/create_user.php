@@ -3,47 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Connexion - My App</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #e6d3f5;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      align-items: center;
-      justify-content: center;
-    }
-    .container {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    input {
-      display: block;
-      margin: 10px auto;
-      padding: 10px;
-      width: 200px;
-    }
-    button {
-      padding: 10px 20px;
-      background: #7b4db6;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #5c3790;
-    }
-    .error {
-      color: red;
-      margin-bottom: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="/app-loove/Front-end/assets/css/create_user.css">
 </head>
 <body>
   <div class="container">

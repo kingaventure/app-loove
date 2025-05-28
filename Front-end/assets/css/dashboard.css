@@ -1,0 +1,11 @@
+
+        .admin-card {
+            transition: transform 0.3s ease;
+            height: 200px;
+        }
+        .admin-card:hover {
+            transform: scale(1.05);
+        }
+        .admin-icon {
+            font-size: 3rem;
+        }
