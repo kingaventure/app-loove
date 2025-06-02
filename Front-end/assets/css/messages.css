@@ -1,4 +1,86 @@
-
+    .modal-overlay {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.4);
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.active {
+  display: flex;
+}
+.modal {
+  background: #fff;
+  border-radius: 14px;
+  padding: 32px 28px 24px 28px;
+  min-width: 320px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+  animation: modalIn .25s;
+}
+.modal h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 1.3em;
+  text-align: center;
+}
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.modal input[type="text"],
+.modal input[type="password"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 1em;
+  width: 100%;
+  box-sizing: border-box;
+}
+.modal button[type="submit"] {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 10px 0;
+  font-size: 1em;
+  cursor: pointer;
+  margin-bottom: 4px;
+  transition: background 0.2s;
+}
+.modal button[type="submit"]:hover {
+  background: #218838;
+}
+.modal button[type="button"] {
+  background: #eee;
+  color: #333;
+  border: none;
+  border-radius: 7px;
+  padding: 10px 0;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.modal button[type="button"]:hover {
+  background: #ddd;
+}
+.close-modal {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 1.4em;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.2s;
+  border: none;
+  background: none;
+}
+.close-modal:hover {
+  color: #dc3545;
+}
     body {
       font-family: Arial, sans-serif;
       background-color: #e6d3f5;

@@ -14,9 +14,9 @@ function getUserMatches($pdo, $userId) {
 function sendReport($pdo, $usernam_rep, $mes) {
     $stmt = $pdo->prepare("
         INSERT INTO report (usernam_rep, mes)
-        VALUES (:usernam_rep :mes)
+        VALUES (:usernam_rep, :mes)
     ");
-    $stmt->bindParam(':usernam_rep', $reporterId, PDO::PARAM_INT);
-    $stmt->bindParam(':mes', $reportedId, PDO::PARAM_INT);
+    $stmt->bindParam(':usernam_rep', $usernam_rep, PDO::PARAM_INT);
+    $stmt->bindParam(':mes', $mes, PDO::PARAM_STR);
     return $stmt->execute();
 }

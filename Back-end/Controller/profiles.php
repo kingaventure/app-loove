@@ -1,4 +1,5 @@
 <?php
+
 require __DIR__ . '/../Model/profiles.php';
 
 $profils = getAllProfil($pdo);

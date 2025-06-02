@@ -1,4 +1,5 @@
 <?php
+
 require __DIR__ . '/../Model/diss.php';
 
 $messages = getAllMessages($pdo);
