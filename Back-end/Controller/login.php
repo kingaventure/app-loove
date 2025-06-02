@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } elseif ($user && password_verify($password, $user['password']) && $user['enabled'] && $user['admin'] == '1') {
                 $_SESSION['authentication'] = true;
                 $_SESSION['user_id'] = $user['id'];
+                $_SESSION['admin'] = 1;
                 $_SESSION['user_username'] = $user['username'];
                 header("Location: index.php?component=dashboard");
                 exit();
