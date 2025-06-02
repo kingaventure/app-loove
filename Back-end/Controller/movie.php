@@ -76,6 +76,12 @@ case 'save':
             }
             exit;
             break;
+case 'check':
+    require_once __DIR__ . '/../Model/home.php';
+    $hasThree = hasThreeMovies($pdo, $_SESSION['user_username']);
+    echo json_encode(['hasThree' => $hasThree]);
+    exit;
+    break;
     }
 }
 

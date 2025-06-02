@@ -69,11 +69,15 @@ function addLike($pdo, $id_liker, $id_liked, $date) {
 }
 
 function checkmatch($pdo, $id_liker, $id_liked) {
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM crush WHERE id_liker = :id_liker AND id_liked = :id_liked");
+    $stmt = $pdo->prepare(
+        "SELECT COUNT(*) FROM crush 
+         WHERE (id_liker = :id_liker AND id_liked = :id_liked)
+            OR (id_liker = :id_liked AND id_liked = :id_liker)"
+    );
     $stmt->bindParam(':id_liker', $id_liker, PDO::PARAM_INT);
     $stmt->bindParam(':id_liked', $id_liked, PDO::PARAM_INT);
     $stmt->execute();
-    return $stmt->fetchColumn() > 0;
+    return $stmt->fetchColumn() == 2;
 }
 function getAllProfilIdsExceptUser($pdo, $userId) {
     $stmt = $pdo->prepare("SELECT id FROM profil WHERE id != ?");
@@ -96,4 +100,12 @@ function likeExists($pdo, $id_liker, $id_liked) {
     $stmt->bindParam(':id_liked', $id_liked, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchColumn() > 0;
+}
+function hasThreeMovies($pdo, $username) {
+    $stmt = $pdo->prepare("SELECT movie_id_1, movie_id_2, movie_id_3 FROM profil WHERE user_name = :username");
+    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$row) return false;
+    return !empty($row['movie_id_1']) && !empty($row['movie_id_2']) && !empty($row['movie_id_3']);
 }

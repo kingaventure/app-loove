@@ -13,6 +13,12 @@ if (!isset($_SESSION['user_id'])) {
 $hasProfile = checkUserProfile($pdo, $_SESSION['user_username']);
 $showProfileModal = !$hasProfile;
 
+// Redirection si pas 3 films
+if ($hasProfile && !hasThreeMovies($pdo, $_SESSION['user_username'])) {
+    header('Location: index.php?component=movie&force=1');
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $prenom = $_POST['prenom'];

@@ -41,6 +41,24 @@
     <script>
         const movieManager = new MovieManager();
     </script>
+    <script>
+        <?php if (isset($_GET['force'])): ?>
+        window.onbeforeunload = function() {
+            return "Vous devez ajouter 3 films à votre profil avant de continuer.";
+        };
+        function checkMoviesCount() {
+            fetch('index.php?component=movie&action=check')
+                .then(r => r.json())
+                .then(data => {
+                    if (data.hasThree) {
+                        window.onbeforeunload = null;
+                        window.location.href = "index.php?component=home";
+                    }
+                });
+        }
+        setInterval(checkMoviesCount, 2000);
+        <?php endif; ?>
+    </script>
 </body>
 </html>
 

@@ -20,6 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $date = $data['date'];
 if (!likeExists($pdo, $id_liker, $id_liked)) {
     addLike($pdo, $id_liker, $id_liked, $date);
+    if (checkmatch($pdo, $id_liker, $id_liked)){
+        echo json_encode(['success' => true, 'match' => true]);
+        exit;
+    }
+    
 } else if(checkmatch($pdo, $id_liker, $id_liked)){
     echo json_encode(['success' => false, 'message' => 'Match trouvé']);
     exit;
@@ -29,7 +34,7 @@ if (!likeExists($pdo, $id_liker, $id_liked)) {
     exit;
 }
 
-        echo json_encode(['success' => true]);
+        echo json_encode(['success' => true,]);
         exit;
     } catch (Exception $e) {
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);

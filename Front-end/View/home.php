@@ -96,9 +96,13 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert("Like enregistré !");
+              if (data.match) {
+                alert('C\'est un match !');
+              } else {
+                alert('Vous avez liké ce profil.');
+              }
             } else {
-                alert("Erreur : " + data.message);
+                alert(data.message);
             }
         })
         .catch(error => {
