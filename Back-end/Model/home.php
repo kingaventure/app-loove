@@ -80,8 +80,15 @@ function checkmatch($pdo, $id_liker, $id_liked) {
     return $stmt->fetchColumn() == 2;
 }
 function getAllProfilIdsExceptUser($pdo, $userId) {
-    $stmt = $pdo->prepare("SELECT id FROM profil WHERE id != ?");
-    $stmt->execute([$userId]);
+    $stmt = $pdo->prepare("
+        SELECT id FROM profil 
+        WHERE id != :userId
+        AND id NOT IN (
+            SELECT id_liked FROM crush WHERE id_liker = :userId
+        )
+    ");
+    $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+    $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 function getIdUser($pdo, $username) {
