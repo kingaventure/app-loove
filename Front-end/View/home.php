@@ -35,23 +35,27 @@
   <button class="account-btn">👤 Compte</button>
 
   <div class="card-container">
-    <div class="card">
-    <?php if ($hasProfile): ?>
-      <img src="<?php echo '/app-loove' . $image ?>" alt="Image de profil">
-        <div class="info">
-            <div>
-                <div class="name"><?php echo htmlspecialchars($prenom); ?></div>
-                <div class="age"><?php echo htmlspecialchars($age); ?> ans</div>
-                <div class="bio"><?php echo htmlspecialchars($bio); ?></div>
-            </div>
-            <button class="more-info-btn">🔎 Plus d'infos</button>
-        </div>
-    <?php else: ?>
-        <div class="info">
-            <div class="bio">Créez votre profil pour commencer</div>
-        </div>
-    <?php endif; ?>
-    </div>
+  <div class="card">
+  <?php if ($noMoreProfiles): ?>
+      <div class="info">
+          <div class="bio">Plus de profil à liker pour le moment.</div>
+      </div>
+  <?php elseif ($hasProfile): ?>
+    <img src="<?php echo '/app-loove' . $image ?>" alt="Image de profil">
+      <div class="info">
+          <div>
+              <div class="name"><?php echo htmlspecialchars($prenom); ?></div>
+              <div class="age"><?php echo htmlspecialchars($age); ?> ans</div>
+              <div class="bio"><?php echo htmlspecialchars($bio); ?></div>
+          </div>
+          <button class="more-info-btn">🔎 Plus d'infos</button>
+      </div>
+  <?php else: ?>
+      <div class="info">
+          <div class="bio">Créez votre profil pour commencer</div>
+      </div>
+  <?php endif; ?>
+  </div>
 
     <div class="swipe-buttons">
       <button class="left-btn">❌</button>

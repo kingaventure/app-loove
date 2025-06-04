@@ -71,7 +71,7 @@ $age = '';
 $bio = '';
 $sex = '';
 $os = '';
-
+$noMoreProfiles = false;
 if ($hasProfile) {
     $profilId = getIdUser($pdo, $_SESSION['user_username']);
     $date = date('Y-m-d H:i:s');
@@ -99,6 +99,8 @@ if ($hasProfile) {
                 default => 'autre'
             };
         }
+    } else {
+        $noMoreProfiles = true;
     }
 }
 require_once __DIR__ . '/../../Front-end/View/home.php';
