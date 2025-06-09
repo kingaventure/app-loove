@@ -4,15 +4,29 @@
       background-color: #e6d3f5;
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
     }
     header {
       background-color: #7b4db6;
       color: white;
       text-align: center;
       padding: 15px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .header-icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .close-icon {
+      left: 20px;
     }
     .map-container {
       flex: 1;
@@ -24,8 +38,8 @@
       gap: 20px;
     }
     .map {
-      width: 90%;
-      height: 60%;
+      width: 1250px;
+      height: 600px;
       background-color: white;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -55,3 +69,4 @@
       cursor: not-allowed;
       opacity: 0.7;
     }
+    

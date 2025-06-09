@@ -27,6 +27,7 @@
         <option value="3">Autre</option>
       </select>
       <input type="file" name="profile_image" accept="image/*" required>
+      <input type="text" name="city" placeholder="Ville" required>
       <button type="submit">Créer mon profil</button>
     </form>
   </div>
@@ -118,7 +119,7 @@
     <a href="/app-loove/index.php?component=movie" class="nav-item">🎬</a>
         <a href="/app-loove/index.php?component=messages" class="nav-item">💬</a>
         <a href="/app-loove/index.php?component=notification" class="nav-item">🔔</a>
-        <a href="#" class="nav-item">➕</a>
+        <a href="/app-loove/index.php?component=settings" class="nav-item">⚙️</a>
   </div>
 </body>
 </html>

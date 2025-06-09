@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $bio = $_POST['bio'];
     $sex = intval($_POST['sex']);
     $os = intval($_POST['os']);
+    $city = $_POST['city'];
     
     $uploadDir = __DIR__ . '/../../uploads/';
     if (!file_exists($uploadDir)) {
@@ -46,7 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $bio,
             '/uploads/' . $imageFileName,
             $sex,
-            $os
+            $os,
+            $city
         );
         
         if ($result) {
@@ -71,6 +73,7 @@ $age = '';
 $bio = '';
 $sex = '';
 $os = '';
+$city = '';
 $noMoreProfiles = false;
 if ($hasProfile) {
     $profilId = getIdUser($pdo, $_SESSION['user_username']);
@@ -98,6 +101,7 @@ if ($hasProfile) {
                 2 => 'bi',
                 default => 'autre'
             };
+            $city = $profil['city'];
         }
     } else {
         $noMoreProfiles = true;

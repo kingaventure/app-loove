@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <title>Acheter le premium - My App</title>
     <link rel="stylesheet" href="/app-loove/Front-end/assets/css/premium.css">
-
 </head>
 <body>
   <header>
+    <a href="/app-loove/index.php?component=settings" class="header-icon close-icon">×</a>
     <h1>Acheter le premium</h1>
   </header>
   <div class="container">

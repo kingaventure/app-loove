@@ -8,6 +8,7 @@
 <body>
   <header>
     <h1>Géo localisation</h1>
+    <a href="/app-loove/index.php?component=settings" class="header-icon close-icon">×</a>
   </header>
   <div class="map-container">
     <div class="map">
