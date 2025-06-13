@@ -11,14 +11,27 @@ function deleteReport($pdo, $id){
     return $stmt->execute([$id]);
 }
 
-function disableUser($pdo, $id){
-    $stmt = $pdo->prepare("SELECT user_name FROM profil WHERE id = ?");
-    $stmt->execute([$id]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+function disableUser($pdo, $reportId){
+    $stmt = $pdo->prepare("SELECT usernam_rep FROM report WHERE id = ?");
+    $stmt->execute([$reportId]);
+    $report = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && isset($user['user_name'])) {
-        $stmt = $pdo->prepare("UPDATE user SET enabled = 0 WHERE username = ?");
-        return $stmt->execute([$user['user_name']]);
+    if (!$report || !isset($report['usernam_rep'])) {
+        return false;
     }
-    return false;
+
+    $profilId = $report['usernam_rep'];
+
+    $stmt = $pdo->prepare("SELECT user_name FROM profil WHERE id = ?");
+    $stmt->execute([$profilId]);
+    $profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$profil || !isset($profil['user_name'])) {
+        return false;
+    }
+
+    $username = $profil['user_name'];
+    
+    $stmt = $pdo->prepare("UPDATE user SET enabled = 0 WHERE username = ?");
+    return $stmt->execute([$username]);
 }

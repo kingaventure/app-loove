@@ -4,49 +4,40 @@
   <meta charset="UTF-8">
   <title>Confidentialité - My App</title>
     <link rel="stylesheet" href="/app-loove/Front-end/assets/css/secret.css">
-
 </head>
 <body>
   <header>
+    <a href="/app-loove/index.php?component=settings" class="header-icon close-icon">×</a>
     <h1>Confidentialité</h1>
   </header>
+  <form method="POST" action="">
   <div class="container">
     <div class="option">
       <span>Compte privé</span>
-      <div><button class="onoff" onclick="onoff(this)"><div>off</div></button></div>
+      <label class="switch">
+        <input type="checkbox" name="Acc_priv" <?= !empty($settings['Acc_priv']) ? 'checked' : '' ?>>
+        <span class="slider round"></span>
+      </label>
     </div>
     <div class="option">
       <span>Photo privé</span>
-      <div><button class="onoff" onclick="onoff(this)"><div>off</div></div>
+      <label class="switch">
+        <input type="checkbox" name="Pic_priv" <?= !empty($settings['Pic_priv']) ? 'checked' : '' ?>>
+        <span class="slider round"></span>
+      </label>
     </div>
     <div class="option">
       <span>Vrai Nom</span>
-      <div><button class="onoff" onclick="onoff(this)"><div>off</div></div>
+      <label class="switch">
+        <input type="checkbox" name="Real_name" <?= !empty($settings['Real_name']) ? 'checked' : '' ?>>
+        <span class="slider round"></span>
+      </label>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+      <button type="submit">Sauvegarder</button>
     </div>
   </div>
+</form>
 </body>
 </html>
-<script>
-    var buttonstate=0;
-function onoff(element)
-{
-  buttonstate= 1 - buttonstate;
-  var blabel, bstyle, bcolor;
-  if(buttonstate)
-  {
-    blabel="on";
-    bstyle="green";
-    bcolor="lightgreen";
-  }
-  else
-  {
-    blabel="off";
-    bstyle="lightgray";
-    bcolor="gray";
-  }
-  var child=element.firstChild;
-  child.style.background=bstyle;
-  child.style.color=bcolor;
-  child.innerHTML=blabel;
-}
-    </script>

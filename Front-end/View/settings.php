@@ -7,7 +7,7 @@
 </head>
 <body>
   <header>
-    <a href="javascript:history.back()" class="header-icon close-icon">×</a>
+    <a href="/app-loove/index.php?component=home" class="header-icon close-icon">×</a>
     <h1>Paramètre</h1>
   </header>
   <div class="settings">

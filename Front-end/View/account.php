@@ -36,7 +36,6 @@
 <header>
     <a href="/app-loove/index.php?component=home" class="header-icon close-icon">×</a>
     <h1>Mon compte</h1>
-    <a href="/app-loove/index.php?component=settings" class="header-icon settings-icon">⚙️</a>
   </header>
   <div class="container">
     <div class="profile-pic"><img class="img-pof" width="120" src="<?php echo '/app-loove' . $image ?>" alt="Image de profil"></div>
