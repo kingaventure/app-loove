@@ -4,7 +4,6 @@ require_once __DIR__ . '/../Model/home.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
 if (!isset($_SESSION['user_id'])) {
     header('Location: index.php?component=login');
     exit();
@@ -13,7 +12,6 @@ if (!isset($_SESSION['user_id'])) {
 $hasProfile = checkUserProfile($pdo, $_SESSION['user_username']);
 $showProfileModal = !$hasProfile;
 
-// Redirection si pas 3 films
 if ($hasProfile && !hasThreeMovies($pdo, $_SESSION['user_username'])) {
     header('Location: index.php?component=movie&force=1');
     exit();
@@ -78,33 +76,51 @@ $noMoreProfiles = false;
 if ($hasProfile) {
     $profilId = getIdUser($pdo, $_SESSION['user_username']);
     $date = date('Y-m-d H:i:s');
-    $ids_possibles = getAllProfilIdsExceptUser($pdo, $profilId);
+    $ids_possibles = getAllExceptPrivateAccount($pdo);
+        if (in_array($profilId, $ids_possibles)) {
+            $index = array_search($profilId, $ids_possibles);
+            unset($ids_possibles[$index]);
+            $ids_possibles = array_values($ids_possibles);
+        }
+        $ids_possibles = getProfilsFromUserIds($pdo, $ids_possibles);
     if (!empty($ids_possibles)) {
         $randomId = $ids_possibles[array_rand($ids_possibles)];
         $profil = getProfil($pdo, $randomId);
-        if ($profil) {
-            $age = $profil['age'];
-            $image = $profil['img'];
-            $bio = $profil['bio'];
-            $name = $profil['name'];
-            $prenom = $profil['prenom'];
+        $user_id = getIdUser($pdo, $profil['user_name']);
+        $settingsId = checkSettings($pdo, $user_id);
+        
+            if ($profil) {
+                $age = $profil['age'];
+                $image = $profil['img'];
+                $bio = $profil['bio'];
+                $name = $profil['name'];
+                $prenom = $profil['prenom'];
 
-            $sex = match($profil['sex']) {
-                0 => 'homme',
-                1 => 'femme',
-                default => 'autre'
-            };
+                $sex = match($profil['sex']) {
+                    0 => 'homme',
+                    1 => 'femme',
+                    default => 'autre'
+                };
 
-            $os = match($profil['os']) {
-                0 => 'hétéro',
-                1 => 'homo',
-                2 => 'bi',
-                default => 'autre'
-            };
-            $city = $profil['city'];
-        }
-    } else {
-        $noMoreProfiles = true;
-    }
+                $os = match($profil['os']) {
+                    0 => 'hétéro',
+                    1 => 'homo',
+                    2 => 'bi',
+                    default => 'autre'
+                };
+                $city = $profil['city'];
+                } else {
+                    $noMoreProfiles = true;
+                } 
+            } 
+        
+
+
+
+
+function algo($pdo, $randomId, $user_id, $settingsId){
+    
+}
+
 }
 require_once __DIR__ . '/../../Front-end/View/home.php';

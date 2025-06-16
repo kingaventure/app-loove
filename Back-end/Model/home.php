@@ -81,20 +81,19 @@ function checkmatch($pdo, $id_liker, $id_liked) {
     $stmt->execute();
     return $stmt->fetchColumn() == 2;
 }
-function getAllProfilIdsExceptUser($pdo, $userId) {
-    $stmt = $pdo->prepare("
-        SELECT id FROM profil 
-        WHERE id != :userId
-        AND id NOT IN (
-            SELECT id_liked FROM crush WHERE id_liker = :userId
-        )
+
+function getAllExceptPrivateAccount($pdo){
+$stmt = $pdo->prepare("
+        SELECT u.id
+        FROM user u
+        JOIN settings s ON u.id = s.id_profil
+        WHERE s.Acc_priv = 0;
     ");
-    $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 function getIdUser($pdo, $username) {
-    $stmt = $pdo->prepare("SELECT id FROM profil WHERE user_name = :username");
+    $stmt = $pdo->prepare("SELECT id FROM user WHERE username = :username");
     $stmt->bindParam(':username', $username, PDO::PARAM_STR);
     $stmt->execute();
     if ($stmt->rowCount() === 0) {
@@ -117,4 +116,40 @@ function hasThreeMovies($pdo, $username) {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$row) return false;
     return !empty($row['movie_id_1']) && !empty($row['movie_id_2']) && !empty($row['movie_id_3']);
+}
+function checkSettings($pdo, $id){
+    $stmt = $pdo->prepare("SELECT Acc_priv, Pic_priv, Real_name FROM settings WHERE id_profil = :id");
+    $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+function getProfilsFromUserIds($pdo, $userIds) {
+    if (empty($userIds)) {
+        return [];
+    }
+
+    // Crée une liste de placeholders : :id0, :id1, etc.
+    $placeholders = [];
+    foreach ($userIds as $index => $id) {
+        $placeholders[] = ":id$index";
+    }
+
+    $sql = "
+        SELECT p.id AS id_profil
+        FROM user u
+        JOIN profil p ON p.user_name = u.username
+        WHERE u.id IN (" . implode(", ", $placeholders) . ")
+    ";
+
+    $stmt = $pdo->prepare($sql);
+
+    // Associe chaque placeholder à sa valeur
+    foreach ($userIds as $index => $id) {
+        $stmt->bindValue(":id$index", $id, PDO::PARAM_INT);
+    }
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
