@@ -1,11 +1,12 @@
 <?php
 
 function getProfil($pdo, $id) {
-    $stmt = $pdo->prepare("SELECT * FROM profil WHERE id = :id");
+    $stmt = $pdo->prepare("SELECT *, sexe AS sex FROM profil WHERE id = :id");
     $stmt->bindParam(':id', $id, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
 
 function getAllProfil($pdo) {
     $stmt = $pdo->prepare("SELECT * FROM profil");
@@ -54,6 +55,7 @@ function addProfil($pdo, $username, $prenom, $name, $age, $bio, $img, $sex, $os,
         return false;
     }
 }
+
 
 function checkUserProfile($pdo, $username) {
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM profil WHERE user_name = :username");

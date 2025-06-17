@@ -21,5 +21,9 @@
     <button>Premium</button>
     </a>
   </div>
+  <div class="logout-container">
+  <a href="/app-loove/index.php?component=logout" class="logout-button">Déconnexion</a>
+</div>
+
 </body>
 </html>

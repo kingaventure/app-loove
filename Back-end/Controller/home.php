@@ -88,27 +88,91 @@ if ($hasProfile) {
         $profil = getProfil($pdo, $randomId);
         $user_id = getIdUser($pdo, $profil['user_name']);
         $settingsId = checkSettings($pdo, $user_id);
-        
             if ($profil) {
-                $age = $profil['age'];
-                $image = $profil['img'];
-                $bio = $profil['bio'];
-                $name = $profil['name'];
-                $prenom = $profil['prenom'];
+                if ($settingsId['Real_name'] != 1) {
+                    if ($settingsId['Pic_priv'] != 1){
+                        $age = $profil['age'];
+                        $image = $profil['img'];
+                        $bio = $profil['bio'];
+                        $name = $profil['name'];
+                        $prenom = $profil['prenom'];
+                        $sex = match($profil['sex']) {
+                            0 => 'homme',
+                            1 => 'femme',
+                            default => 'autre'
+                        };
+                        $os = match($profil['os']) {
+                            0 => 'hétéro',
+                            1 => 'homo',
+                            2 => 'bi',
+                            default => 'autre'
+                        };
+                        $city = $profil['city'];
+                    } else {
+                        $age = $profil['age'];
+                        $image = "/uploads/1750157115_blank-profile-picture-973460_960_720.webp";
+                        $bio = $profil['bio'];
+                        $name = $profil['name'];
+                        $prenom = $profil['prenom'];
 
-                $sex = match($profil['sex']) {
-                    0 => 'homme',
-                    1 => 'femme',
-                    default => 'autre'
-                };
+                        $sex = match($profil['sex']) {
+                            0 => 'homme',
+                            1 => 'femme',
+                            default => 'autre'
+                        };
 
-                $os = match($profil['os']) {
-                    0 => 'hétéro',
-                    1 => 'homo',
-                    2 => 'bi',
-                    default => 'autre'
-                };
-                $city = $profil['city'];
+                        $os = match($profil['os']) {
+                            0 => 'hétéro',
+                            1 => 'homo',
+                            2 => 'bi',
+                            default => 'autre'
+                        };
+                        $city = $profil['city'];
+                    }
+            } else {
+                if ($settingsId['Pic_priv'] != 1){
+                        $age = $profil['age'];
+                        $image = $profil['img'];
+                        $bio = $profil['bio'];
+                        $name = "";
+                        $prenom = $profil['user_name'];
+
+                        $sex = match($profil['sex']) {
+                            0 => 'homme',
+                            1 => 'femme',
+                            default => 'autre'
+                        };
+
+                        $os = match($profil['os']) {
+                            0 => 'hétéro',
+                            1 => 'homo',
+                            2 => 'bi',
+                            default => 'autre'
+                        };
+                        $city = $profil['city'];
+                    } else {
+                        $age = $profil['age'];
+                        $image = "/uploads/1750157115_blank-profile-picture-973460_960_720.webp";
+                        $bio = $profil['bio'];
+                        $name = "";
+                        $prenom = $profil['user_name'];
+
+                        $sex = match($profil['sex']) {
+                            0 => 'homme',
+                            1 => 'femme',
+                            default => 'autre'
+                        };
+
+                        $os = match($profil['os']) {
+                            0 => 'hétéro',
+                            1 => 'homo',
+                            2 => 'bi',
+                            default => 'autre'
+                        };
+                        $city = $profil['city'];
+                    }
+                    
+            }
                 } else {
                     $noMoreProfiles = true;
                 } 
