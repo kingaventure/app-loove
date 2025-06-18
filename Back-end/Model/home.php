@@ -173,3 +173,74 @@ function getProfilsFromUserIds($pdo, $userIds) {
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
+function getGenresFromTMDB($movieId, $pdo) {
+    // Vérifie si les genres sont déjà en cache
+    $stmt = $pdo->prepare("SELECT genres FROM film_genres WHERE movie_id = :id");
+    $stmt->execute([':id' => $movieId]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        return json_decode($result['genres'], true);
+    }
+
+    // Sinon, appelle l'API
+    $details = getMovieDetails($movieId);
+    if (!$details || !isset($details['genres'])) {
+        return [];
+    }
+
+    $genres = array_map(fn($g) => $g['name'], $details['genres']);
+
+    // Stocke le résultat en cache
+    $stmt = $pdo->prepare("INSERT INTO film_genres (movie_id, genres) VALUES (:id, :genres)");
+    $stmt->execute([
+        ':id' => $movieId,
+        ':genres' => json_encode($genres)
+    ]);
+
+    return $genres;
+}
+function getMatchingProfilId(PDO $pdo, string $currentUsername): ?int {
+    $currentProfile = getProfile($pdo, $currentUsername);
+    if (!$currentProfile) return null;
+
+    // Récupérer les genres de l'utilisateur connecté
+    $userGenres = [];
+    foreach (['movie_id_1', 'movie_id_2', 'movie_id_3'] as $col) {
+        if (!empty($currentProfile[$col])) {
+            $userGenres = array_merge($userGenres, getGenresFromTMDB($currentProfile[$col], $pdo));
+        }
+    }
+    $userGenres = array_unique($userGenres);
+
+    // Récupérer tous les autres profils
+    $stmt = $pdo->prepare("SELECT * FROM profil WHERE user_name != :username");
+    $stmt->execute([':username' => $currentUsername]);
+    $allProfils = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $scores = [];
+
+    foreach ($allProfils as $profil) {
+        $genres = [];
+        foreach (['movie_id_1', 'movie_id_2', 'movie_id_3'] as $col) {
+            if (!empty($profil[$col])) {
+                $genres = array_merge($genres, getGenresFromTMDB($profil[$col], $pdo));
+            }
+        }
+
+        $genres = array_unique($genres);
+        $common = array_intersect($userGenres, $genres);
+        $score = count($common);
+
+        if ($score > 0) {
+            $scores[$profil['id']] = $score;
+        }
+    }
+
+    if (empty($scores)) return null;
+
+    // Trier les meilleurs et retourner un id aléatoire parmi eux
+    arsort($scores);
+    $topIds = array_keys($scores);
+    return $topIds[array_rand($topIds)];
+}

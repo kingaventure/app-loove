@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Model/home.php'; 
+require_once __DIR__ . '/../Model/movie.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -18,7 +19,6 @@ if ($hasProfile && !hasThreeMovies($pdo, $_SESSION['user_username'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
     $prenom = $_POST['prenom'];
     $name = $_POST['name'];
     $age = intval($_POST['age']);
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$image = $imageFileName;
+$image = '';
 $prenom = '';
 $name = '';
 $age = '';
@@ -73,114 +73,86 @@ $sex = '';
 $os = '';
 $city = '';
 $noMoreProfiles = false;
+
 if ($hasProfile) {
     $profilId = $_SESSION['user_id'];
-    
     $date = date('Y-m-d H:i:s');
+
     $ids_possibles = getAllExceptPrivateAccount($pdo);
-        if (in_array($profilId, $ids_possibles)) {
-            $index = array_search($profilId, $ids_possibles);
-            unset($ids_possibles[$index]);
-            $ids_possibles = array_values($ids_possibles);
-        }
-        $ids_possibles = getProfilsFromUserIds($pdo, $ids_possibles);
+    if (in_array($profilId, $ids_possibles)) {
+        $index = array_search($profilId, $ids_possibles);
+        unset($ids_possibles[$index]);
+        $ids_possibles = array_values($ids_possibles);
+    }
+    $ids_possibles = getProfilsFromUserIds($pdo, $ids_possibles);
+
     if (!empty($ids_possibles)) {
-        $randomId = $ids_possibles[array_rand($ids_possibles)];
-        $profil = getProfil($pdo, $randomId);
+        $matchedId = getMatchingProfilId($pdo, $_SESSION['user_username']);
+
+        if ($matchedId && in_array($matchedId, array_column($ids_possibles, 'id'))) {
+            $profil = getProfil($pdo, $matchedId);
+        } else {
+            $randomId = $ids_possibles[array_rand($ids_possibles)];
+            $profil = getProfil($pdo, $randomId);
+        }
+
         $user_id = getIdUser($pdo, $profil['user_name']);
         $settingsId = checkSettings($pdo, $user_id);
-            if ($profil) {
 
-                if ($settingsId['Real_name'] != 1) {
-                    if ($settingsId['Pic_priv'] != 1){
-                        $age = $profil['age'];
-                        $image = $profil['img'];
-                        $bio = $profil['bio'];
-                        $name = $profil['name'];
-                        $prenom = $profil['prenom'];
-                        $sex = match($profil['sex']) {
-                            0 => 'homme',
-                            1 => 'femme',
-                            default => 'autre'
-                        };
-                        $os = match($profil['os']) {
-                            0 => 'hétéro',
-                            1 => 'homo',
-                            2 => 'bi',
-                            default => 'autre'
-                        };
-                        $city = $profil['city'];
-                    } else {
-                        $age = $profil['age'];
-                        $image = "/uploads/1750157115_blank-profile-picture-973460_960_720.webp";
-                        $bio = $profil['bio'];
-                        $name = $profil['name'];
-                        $prenom = $profil['prenom'];
-
-                        $sex = match($profil['sex']) {
-                            0 => 'homme',
-                            1 => 'femme',
-                            default => 'autre'
-                        };
-
-                        $os = match($profil['os']) {
-                            0 => 'hétéro',
-                            1 => 'homo',
-                            2 => 'bi',
-                            default => 'autre'
-                        };
-                        $city = $profil['city'];
-                    }
+        if ($profil) {
+            if ($settingsId['Real_name'] != 1) {
+                if ($settingsId['Pic_priv'] != 1){
+                    $age = $profil['age'];
+                    $image = $profil['img'];
+                    $bio = $profil['bio'];
+                    $name = $profil['name'];
+                    $prenom = $profil['prenom'];
+                } else {
+                    $age = $profil['age'];
+                    $image = "/uploads/1750157115_blank-profile-picture-973460_960_720.webp";
+                    $bio = $profil['bio'];
+                    $name = $profil['name'];
+                    $prenom = $profil['prenom'];
+                }
             } else {
                 if ($settingsId['Pic_priv'] != 1){
-                        $age = $profil['age'];
-                        $image = $profil['img'];
-                        $bio = $profil['bio'];
-                        $name = "";
-                        $prenom = $profil['user_name'];
-
-                        $sex = match($profil['sex']) {
-                            0 => 'homme',
-                            1 => 'femme',
-                            default => 'autre'
-                        };
-
-                        $os = match($profil['os']) {
-                            0 => 'hétéro',
-                            1 => 'homo',
-                            2 => 'bi',
-                            default => 'autre'
-                        };
-                        $city = $profil['city'];
-                    } else {
-                        $age = $profil['age'];
-                        $image = "/uploads/1750157115_blank-profile-picture-973460_960_720.webp";
-                        $bio = $profil['bio'];
-                        $name = "";
-                        $prenom = $profil['user_name'];
-
-                        $sex = match($profil['sex']) {
-                            0 => 'homme',
-                            1 => 'femme',
-                            default => 'autre'
-                        };
-
-                        $os = match($profil['os']) {
-                            0 => 'hétéro',
-                            1 => 'homo',
-                            2 => 'bi',
-                            default => 'autre'
-                        };
-                        $city = $profil['city'];
-                    }
-                    
-            }
+                    $age = $profil['age'];
+                    $image = $profil['img'];
+                    $bio = $profil['bio'];
+                    $name = "";
+                    $prenom = $profil['user_name'];
                 } else {
-                    $noMoreProfiles = true;
-                } 
-            } 
+                    $age = $profil['age'];
+                    $image = "/uploads/1750157115_blank-profile-picture-973460_960_720.webp";
+                    $bio = $profil['bio'];
+                    $name = "";
+                    $prenom = $profil['user_name'];
+                }
+            }
 
-          $profilId = getUsername($pdo, $profilId);
-          $profilId = getIdProfil($pdo, $profilId); 
+            $sex = match($profil['sex']) {
+                0 => 'homme',
+                1 => 'femme',
+                default => 'autre'
+            };
+
+            $os = match($profil['os']) {
+                0 => 'hétéro',
+                1 => 'homo',
+                2 => 'bi',
+                default => 'autre'
+            };
+
+            $city = $profil['city'];
+        } else {
+            $noMoreProfiles = true;
+        }
+    } else {
+        $noMoreProfiles = true;
+    }
+
+    $profilId = getUsername($pdo, $profilId);
+    $profilId = getIdProfil($pdo, $profilId); 
 }
+
 require_once __DIR__ . '/../../Front-end/View/home.php';
