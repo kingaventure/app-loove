@@ -74,7 +74,8 @@ $os = '';
 $city = '';
 $noMoreProfiles = false;
 if ($hasProfile) {
-    $profilId = getIdUser($pdo, $_SESSION['user_username']);
+    $profilId = $_SESSION['user_id'];
+    
     $date = date('Y-m-d H:i:s');
     $ids_possibles = getAllExceptPrivateAccount($pdo);
         if (in_array($profilId, $ids_possibles)) {
@@ -89,6 +90,7 @@ if ($hasProfile) {
         $user_id = getIdUser($pdo, $profil['user_name']);
         $settingsId = checkSettings($pdo, $user_id);
             if ($profil) {
+
                 if ($settingsId['Real_name'] != 1) {
                     if ($settingsId['Pic_priv'] != 1){
                         $age = $profil['age'];
@@ -177,14 +179,8 @@ if ($hasProfile) {
                     $noMoreProfiles = true;
                 } 
             } 
-        
 
-
-
-
-function algo($pdo, $randomId, $user_id, $settingsId){
-    
-}
-
+          $profilId = getUsername($pdo, $profilId);
+          $profilId = getIdProfil($pdo, $profilId); 
 }
 require_once __DIR__ . '/../../Front-end/View/home.php';

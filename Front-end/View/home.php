@@ -78,6 +78,7 @@
     document.querySelector('.more-info-btn').addEventListener('click', () => {
         alert(`${<?php echo json_encode($prenom); ?>} ${<?php echo json_encode($name); ?>} est un(e) ${<?php echo json_encode($sex); ?>} ${<?php echo json_encode($os); ?>}`);
     });
+    
 }
 
     document.querySelector('.account-btn').addEventListener('click', () => {

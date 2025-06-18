@@ -17,7 +17,9 @@ if (!isset($_SESSION['user_username'])) {
     exit();
 }
 
-$profilId = getIdUser($pdo, $_SESSION['user_username']);
+$profilId = $_SESSION['user_id'];
+$profilId = getUsername($pdo, $profilId);
+$profilId = getIdProfil($pdo, $profilId); 
 $otherId = isset($_GET['user']) ? intval($_GET['user']) : 0;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['message'])) {

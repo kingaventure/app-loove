@@ -6,12 +6,14 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$profilId = getIdUser($pdo, $_SESSION['user_username']);
+$profilId = $_SESSION['user_id'];
+$profilId = getUsername($pdo, $profilId);
+$profilId = getIdProfil($pdo, $profilId); 
 $matches = getUserMatches($pdo, $profilId);
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['report'])) {
-    $usernam_rep = $_POST['usernam_rep']; // c'est l'ID du signalé
+    $usernam_rep = $_POST['usernam_rep'];
     $mes = $_POST['mes'];
     sendReport($pdo, $usernam_rep, $mes);
     header('Location: index.php?component=home');

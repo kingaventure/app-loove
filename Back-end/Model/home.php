@@ -104,6 +104,26 @@ function getIdUser($pdo, $username) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['id'] ?? null;
 }
+function getUsername($pdo, $id) {
+    $stmt = $pdo->prepare("SELECT username FROM user WHERE id = :id");
+    $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+    $stmt->execute();
+    if ($stmt->rowCount() === 0) {
+        return null;
+    }
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['username'] ?? null;
+}
+function getIdProfil($pdo, $username) {
+    $stmt = $pdo->prepare("SELECT id FROM profil WHERE user_name = :username");
+    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+    $stmt->execute();
+    if ($stmt->rowCount() === 0) {
+        return null;
+    }
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['id'] ?? null;
+}
 function likeExists($pdo, $id_liker, $id_liked) {
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM crush WHERE id_liker = :id_liker AND id_liked = :id_liked");
     $stmt->bindParam(':id_liker', $id_liker, PDO::PARAM_INT);
@@ -132,7 +152,6 @@ function getProfilsFromUserIds($pdo, $userIds) {
         return [];
     }
 
-    // Crée une liste de placeholders : :id0, :id1, etc.
     $placeholders = [];
     foreach ($userIds as $index => $id) {
         $placeholders[] = ":id$index";
@@ -147,7 +166,6 @@ function getProfilsFromUserIds($pdo, $userIds) {
 
     $stmt = $pdo->prepare($sql);
 
-    // Associe chaque placeholder à sa valeur
     foreach ($userIds as $index => $id) {
         $stmt->bindValue(":id$index", $id, PDO::PARAM_INT);
     }
