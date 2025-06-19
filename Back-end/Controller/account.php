@@ -51,9 +51,9 @@ try {
         $bio = $profil['bio'];
         $name = $profil['name'];
         $prenom = $profil['prenom'];
-        if ($profil['sex'] == 0) {
+        if ($profil['sexe'] == 0) {
             $sex = 'homme';
-        } elseif ($profil['sex'] == 1) {
+        } elseif ($profil['sexe'] == 1) {
             $sex = 'femme';
         } else {
             $sex = 'autre';

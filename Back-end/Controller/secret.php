@@ -3,7 +3,6 @@
 
 require __DIR__ . '/../Model/secret.php';
 
-session_start();
 $id_profil = $_SESSION['user_id'];
 $settings = getSettings($pdo, $id_profil);
 

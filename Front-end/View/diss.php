@@ -28,7 +28,7 @@
           <tr>
             <td><?= htmlspecialchars($message['id'], ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars($message['sender_id'], ENT_QUOTES) ?></td>
-            <td><?= htmlspecialchars($message['recevier_id'], ENT_QUOTES) ?></td>
+            <td><?= htmlspecialchars($message['receiver_id'], ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars($message['content'], ENT_QUOTES) ?></td>
             <td><?= htmlspecialchars($message['sent_at'], ENT_QUOTES) ?></td>
             <td class="action">

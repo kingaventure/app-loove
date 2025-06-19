@@ -210,3 +210,10 @@
     .nav-item:active {
       transform: scale(0.95);
     }
+    h1{
+      font-size: 100px;
+      margin: 0;
+      position: relative;
+      top: -50px;
+      color: white;
+    }

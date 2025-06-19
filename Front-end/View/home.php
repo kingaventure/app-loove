@@ -34,7 +34,7 @@
 </div>
 
   <button class="account-btn">👤 Compte</button>
-
+  <h1>BHINGE</h1>
   <div class="card-container">
   <div class="card">
   <?php if ($noMoreProfiles): ?>
