@@ -42,7 +42,13 @@ Les paramètres vous permettent de :
 - **Anonymiser** votre photo de profil
 - Masquer votre **nom et prénom**
 
-> Les options **Premium** et **Localisation** sont présentes mais non fonctionnelles pour le moment.
+## 💘 Premium
+
+   - Pour payer vous devez vous connecté avec ce compte 
+   - Mail : sb-ql3cm43735239@personal.example.com
+   - Mot de passe : n;{9Yo?_
+
+> L'option **Localisation** est présent mais non fonctionnelle pour le moment.
 
 ---
 
