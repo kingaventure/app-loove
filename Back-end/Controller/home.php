@@ -65,6 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Initialisation des variables
+$randomId = null;
+$currentProfilId = null;
 $image = '';
 $prenom = '';
 $name = '';
@@ -74,10 +77,13 @@ $sex = '';
 $os = '';
 $city = '';
 $noMoreProfiles = false;
+$date = date('Y-m-d H:i:s');
 
 if ($hasProfile) {
     $profilId = $_SESSION['user_id'];
-    $date = date('Y-m-d H:i:s');
+    
+    // Récupérer l'ID du profil actuel
+    $currentProfilId = getIdProfil($pdo, $_SESSION['user_username']);
 
     $ids_possibles = getAllExceptPrivateAccount($pdo);
     if (in_array($profilId, $ids_possibles)) {
@@ -93,15 +99,16 @@ if ($hasProfile) {
 
         if ($matchedId && in_array($matchedId, $ids_possibles)) {
             $profil = getProfil($pdo, $matchedId);
+            $randomId = $matchedId;
         } else {
             $randomId = $ids_possibles[array_rand($ids_possibles)];
             $profil = getProfil($pdo, $randomId);
         }
 
-        $user_id = getIdUser($pdo, $profil['user_name']);
-        $settingsId = checkSettings($pdo, $user_id);
-
         if ($profil) {
+            $user_id = getIdUser($pdo, $profil['user_name']);
+            $settingsId = checkSettings($pdo, $user_id);
+
             if ($settingsId['Real_name'] != 1) {
                 $name = $profil['name'];
                 $prenom = $profil['prenom'];
@@ -133,13 +140,12 @@ if ($hasProfile) {
             $city = $profil['city'];
         } else {
             $noMoreProfiles = true;
+            $randomId = null;
         }
     } else {
         $noMoreProfiles = true;
+        $randomId = null;
     }
-
-    $profilId = getUsername($pdo, $profilId);
-    $profilId = getIdProfil($pdo, $profilId);
 }
 
 require_once __DIR__ . '/../../Front-end/View/home.php';
