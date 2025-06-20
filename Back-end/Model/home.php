@@ -7,7 +7,6 @@ function getProfil($pdo, $id) {
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-
 function getAllProfil($pdo) {
     $stmt = $pdo->prepare("SELECT * FROM profil");
     $stmt->execute();
@@ -19,56 +18,36 @@ function addProfil($pdo, $username, $prenom, $name, $age, $bio, $img, $sex, $os,
         $sql = "INSERT INTO profil (user_name, prenom, name, age, bio, img, sexe, os, movie_id_1, movie_id_2, movie_id_3, city) 
                 VALUES (:username, :prenom, :name, :age, :bio, :img, :sex, :os, 0, 0, 0, :city)";
         
-        error_log("SQL Query: " . $sql);
-        error_log("Parameters: " . print_r([
-            'username' => $username,
-            'prenom' => $prenom,
-            'name' => $name,
-            'age' => $age,
-            'bio' => $bio,
-            'img' => $img,
-            'sex' => $sex,
-            'os' => $os,
-            'city' => $city 
-        ], true));
-        
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-        $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $stmt->bindParam(':age', $age, PDO::PARAM_INT);
-        $stmt->bindParam(':bio', $bio, PDO::PARAM_STR);
-        $stmt->bindParam(':img', $img, PDO::PARAM_STR);
-        $stmt->bindParam(':sex', $sex, PDO::PARAM_INT);
-        $stmt->bindParam(':os', $os, PDO::PARAM_INT);
-        $stmt->bindParam(':city', $city, PDO::PARAM_INT);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':prenom', $prenom);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':age', $age);
+        $stmt->bindParam(':bio', $bio);
+        $stmt->bindParam(':img', $img);
+        $stmt->bindParam(':sex', $sex);
+        $stmt->bindParam(':os', $os);
+        $stmt->bindParam(':city', $city);
         
-        $result = $stmt->execute();
-        
-        if (!$result) {
-            error_log("SQL Error: " . print_r($stmt->errorInfo(), true));
-        }
-        
-        return $result;
+        return $stmt->execute();
     } catch (PDOException $e) {
         error_log("PDO Error: " . $e->getMessage());
         return false;
     }
 }
 
-
 function checkUserProfile($pdo, $username) {
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM profil WHERE user_name = :username");
-    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+    $stmt->bindParam(':username', $username);
     $stmt->execute();
     return $stmt->fetchColumn() > 0;
 }
 
 function addLike($pdo, $id_liker, $id_liked, $date) {
     $stmt = $pdo->prepare("INSERT INTO crush (id_liker, id_liked, date) VALUES (:id_liker, :id_liked, :date)");
-    $stmt->bindParam(':id_liker', $id_liker, PDO::PARAM_INT);
-    $stmt->bindParam(':id_liked', $id_liked, PDO::PARAM_INT);
-    $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+    $stmt->bindParam(':id_liker', $id_liker);
+    $stmt->bindParam(':id_liked', $id_liked);
+    $stmt->bindParam(':date', $date);
     $stmt->execute();
 }
 
@@ -78,14 +57,14 @@ function checkmatch($pdo, $id_liker, $id_liked) {
          WHERE (id_liker = :id_liker AND id_liked = :id_liked)
             OR (id_liker = :id_liked AND id_liked = :id_liker)"
     );
-    $stmt->bindParam(':id_liker', $id_liker, PDO::PARAM_INT);
-    $stmt->bindParam(':id_liked', $id_liked, PDO::PARAM_INT);
+    $stmt->bindParam(':id_liker', $id_liker);
+    $stmt->bindParam(':id_liked', $id_liked);
     $stmt->execute();
     return $stmt->fetchColumn() == 2;
 }
 
 function getAllExceptPrivateAccount($pdo){
-$stmt = $pdo->prepare("
+    $stmt = $pdo->prepare("
         SELECT u.id
         FROM user u
         JOIN settings s ON u.id = s.id_profil
@@ -94,98 +73,82 @@ $stmt = $pdo->prepare("
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
+
 function getIdUser($pdo, $username) {
     $stmt = $pdo->prepare("SELECT id FROM user WHERE username = :username");
-    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+    $stmt->bindParam(':username', $username);
     $stmt->execute();
-    if ($stmt->rowCount() === 0) {
-        return null;
-    }
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['id'] ?? null;
 }
+
 function getUsername($pdo, $id) {
     $stmt = $pdo->prepare("SELECT username FROM user WHERE id = :id");
-    $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+    $stmt->bindParam(':id', $id);
     $stmt->execute();
-    if ($stmt->rowCount() === 0) {
-        return null;
-    }
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['username'] ?? null;
 }
+
 function getIdProfil($pdo, $username) {
     $stmt = $pdo->prepare("SELECT id FROM profil WHERE user_name = :username");
-    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+    $stmt->bindParam(':username', $username);
     $stmt->execute();
-    if ($stmt->rowCount() === 0) {
-        return null;
-    }
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['id'] ?? null;
 }
+
 function likeExists($pdo, $id_liker, $id_liked) {
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM crush WHERE id_liker = :id_liker AND id_liked = :id_liked");
-    $stmt->bindParam(':id_liker', $id_liker, PDO::PARAM_INT);
-    $stmt->bindParam(':id_liked', $id_liked, PDO::PARAM_INT);
+    $stmt->bindParam(':id_liker', $id_liker);
+    $stmt->bindParam(':id_liked', $id_liked);
     $stmt->execute();
     return $stmt->fetchColumn() > 0;
 }
+
 function hasThreeMovies($pdo, $username) {
     $stmt = $pdo->prepare("SELECT movie_id_1, movie_id_2, movie_id_3 FROM profil WHERE user_name = :username");
-    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+    $stmt->bindParam(':username', $username);
     $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$row) return false;
     return !empty($row['movie_id_1']) && !empty($row['movie_id_2']) && !empty($row['movie_id_3']);
 }
+
 function checkSettings($pdo, $id){
     $stmt = $pdo->prepare("SELECT Acc_priv, Pic_priv, Real_name FROM settings WHERE id_profil = :id");
-    $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+    $stmt->bindParam(':id', $id);
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result;
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 function getProfilsFromUserIds($pdo, $userIds) {
-    if (empty($userIds)) {
-        return [];
-    }
+    if (empty($userIds)) return [];
 
-    $placeholders = [];
-    foreach ($userIds as $index => $id) {
-        $placeholders[] = ":id$index";
-    }
-
+    $placeholders = implode(', ', array_map(fn($i) => ":id$i", array_keys($userIds)));
     $sql = "
         SELECT p.id AS id_profil
         FROM user u
         JOIN profil p ON p.user_name = u.username
-        WHERE u.id IN (" . implode(", ", $placeholders) . ")
+        WHERE u.id IN ($placeholders)
     ";
 
     $stmt = $pdo->prepare($sql);
-
     foreach ($userIds as $index => $id) {
-        $stmt->bindValue(":id$index", $id, PDO::PARAM_INT);
+        $stmt->bindValue(":id$index", $id);
     }
 
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
+
 function getGenresFromTMDB($movieId, $pdo) {
     $stmt = $pdo->prepare("SELECT genres FROM film_genres WHERE movie_id = :id");
     $stmt->execute([':id' => $movieId]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($result) {
-        return json_decode($result['genres'], true);
-    }
+    if ($result) return json_decode($result['genres'], true);
 
     $details = getMovieDetails($movieId);
-    if (!$details || !isset($details['genres'])) {
-        return [];
-    }
+    if (!$details || !isset($details['genres'])) return [];
 
     $genres = array_map(fn($g) => $g['name'], $details['genres']);
 
@@ -197,6 +160,7 @@ function getGenresFromTMDB($movieId, $pdo) {
 
     return $genres;
 }
+
 function getMatchingProfilId(PDO $pdo, string $currentUsername): ?int {
     $currentProfile = getProfile($pdo, $currentUsername);
     if (!$currentProfile) return null;
@@ -214,8 +178,11 @@ function getMatchingProfilId(PDO $pdo, string $currentUsername): ?int {
     $allProfils = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $scores = [];
-
     foreach ($allProfils as $profil) {
+        if (!isSexualOrientationCompatible($currentProfile['sexe'], $currentProfile['os'], $profil['sexe'], $profil['os'])) {
+            continue;
+        }
+
         $genres = [];
         foreach (['movie_id_1', 'movie_id_2', 'movie_id_3'] as $col) {
             if (!empty($profil[$col])) {
@@ -233,8 +200,14 @@ function getMatchingProfilId(PDO $pdo, string $currentUsername): ?int {
     }
 
     if (empty($scores)) return null;
-
     arsort($scores);
     $topIds = array_keys($scores);
     return $topIds[array_rand($topIds)];
+}
+
+function isSexualOrientationCompatible($userSex, $userOs, $targetSex, $targetOs): bool {
+    if ($userOs == 0 && $targetOs == 0) return $userSex != $targetSex;
+    if ($userOs == 1 && $targetOs == 1) return $userSex == $targetSex;
+    if ($userOs == 2 || $targetOs == 2) return true;
+    return false;
 }

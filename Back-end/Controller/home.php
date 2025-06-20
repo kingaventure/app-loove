@@ -37,7 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $imagePath = $uploadDir . $imageFileName;
     
     if (move_uploaded_file($imageFile['tmp_name'], $imagePath)) {
-        $result = addProfil($pdo, 
+        $result = addProfil(
+            $pdo,
             $_SESSION['user_username'],
             $prenom,
             $name,
@@ -84,12 +85,13 @@ if ($hasProfile) {
         unset($ids_possibles[$index]);
         $ids_possibles = array_values($ids_possibles);
     }
+
     $ids_possibles = getProfilsFromUserIds($pdo, $ids_possibles);
 
     if (!empty($ids_possibles)) {
         $matchedId = getMatchingProfilId($pdo, $_SESSION['user_username']);
 
-        if ($matchedId && in_array($matchedId, array_column($ids_possibles, 'id'))) {
+        if ($matchedId && in_array($matchedId, $ids_possibles)) {
             $profil = getProfil($pdo, $matchedId);
         } else {
             $randomId = $ids_possibles[array_rand($ids_possibles)];
@@ -101,34 +103,19 @@ if ($hasProfile) {
 
         if ($profil) {
             if ($settingsId['Real_name'] != 1) {
-                if ($settingsId['Pic_priv'] != 1){
-                    $age = $profil['age'];
-                    $image = $profil['img'];
-                    $bio = $profil['bio'];
-                    $name = $profil['name'];
-                    $prenom = $profil['prenom'];
-                } else {
-                    $age = $profil['age'];
-                    $image = "/uploads/1750157115_blank-profile-picture-973460_960_720.webp";
-                    $bio = $profil['bio'];
-                    $name = $profil['name'];
-                    $prenom = $profil['prenom'];
-                }
+                $name = $profil['name'];
+                $prenom = $profil['prenom'];
             } else {
-                if ($settingsId['Pic_priv'] != 1){
-                    $age = $profil['age'];
-                    $image = $profil['img'];
-                    $bio = $profil['bio'];
-                    $name = "";
-                    $prenom = $profil['user_name'];
-                } else {
-                    $age = $profil['age'];
-                    $image = "/uploads/1750157115_blank-profile-picture-973460_960_720.webp";
-                    $bio = $profil['bio'];
-                    $name = "";
-                    $prenom = $profil['user_name'];
-                }
+                $name = '';
+                $prenom = $profil['user_name'];
             }
+
+            $image = $settingsId['Pic_priv'] != 1
+                ? $profil['img']
+                : "/uploads/1750157115_blank-profile-picture-973460_960_720.webp";
+
+            $age = $profil['age'];
+            $bio = $profil['bio'];
 
             $sex = match($profil['sex']) {
                 0 => 'homme',
@@ -152,7 +139,7 @@ if ($hasProfile) {
     }
 
     $profilId = getUsername($pdo, $profilId);
-    $profilId = getIdProfil($pdo, $profilId); 
+    $profilId = getIdProfil($pdo, $profilId);
 }
 
 require_once __DIR__ . '/../../Front-end/View/home.php';
