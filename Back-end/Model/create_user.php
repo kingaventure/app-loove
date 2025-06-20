@@ -7,7 +7,6 @@ function addUser($pdo, $username, $password) {
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        // Création du user
         $stmt = $pdo->prepare("
             INSERT INTO user (username, password, prem, enabled, admin)
             VALUES (:username, :password, 0, 1, 0)
@@ -16,10 +15,8 @@ function addUser($pdo, $username, $password) {
         $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
         $stmt->execute();
 
-        // Récupération de l'id nouvellement inséré
         $id_user = $pdo->lastInsertId();
 
-        // Création des settings par défaut
         $stmt = $pdo->prepare("
             INSERT INTO settings (id_profil, Acc_priv, Pic_priv, Real_name)
             VALUES (:id_profil, 0, 0, 0)

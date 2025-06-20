@@ -14,7 +14,7 @@
     }
   </script>
   <style>
-    .modal-overlay { display: none; /* ...autres styles... */ }
+    .modal-overlay { display: none;}
     .modal-overlay[style*="block"] { display: flex; }
   </style>
 </head>

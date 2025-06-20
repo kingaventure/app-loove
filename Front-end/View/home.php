@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CardCrush - Page principale</title>
+  <title>Bhinge - Page principale</title>
     <link rel="stylesheet" href="/app-loove/Front-end/assets/css/home.css">
   </head>
 <body>

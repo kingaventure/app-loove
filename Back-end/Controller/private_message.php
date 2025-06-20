@@ -35,7 +35,6 @@ require_once __DIR__ . '/../../Front-end/View/private_message.php';
 
 <?php if (!empty($messages)): ?>
     <?php foreach ($messages as $msg): ?>
-        <!-- ... -->
     <?php endforeach; ?>
 <?php else: ?>
     <p>Aucun message pour l’instant.</p>

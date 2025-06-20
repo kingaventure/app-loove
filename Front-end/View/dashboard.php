@@ -15,7 +15,6 @@
     <h1 class="text-center mb-5">Dashboard Administrateur</h1>
     
     <div class="row g-4">
-        <!-- Gestion Utilisateurs -->
         <div class="col-md-6">
             <a href="index.php?component=users" class="text-decoration-none">
                 <div class="card admin-card bg-primary text-white">
@@ -27,7 +26,6 @@
             </a>
         </div>
 
-        <!-- Gestion Profils -->
         <div class="col-md-6">
             <a href="index.php?component=profiles" class="text-decoration-none">
                 <div class="card admin-card bg-success text-white">
@@ -39,7 +37,6 @@
             </a>
         </div>
 
-        <!-- Gestion Signalements -->
         <div class="col-md-6">
             <a href="index.php?component=report" class="text-decoration-none">
                 <div class="card admin-card bg-danger text-white">
@@ -51,7 +48,6 @@
             </a>
         </div>
 
-        <!-- Gestion Messages -->
         <div class="col-md-6">
             <a href="index.php?component=diss" class="text-decoration-none">
                 <div class="card admin-card bg-warning text-white">
